@@ -15,7 +15,7 @@ var Breakout = new Phaser.Class({
 
     preload: function ()
     {
-        // this.load.atlas('assets', 'assets/games/breakout/breakout.png', 'assets/games/breakout/breakout.json');
+        this.load.image('title', 'img/title.png');
         this.load.image('background', 'img/background.jpg');
         this.load.image('paddle', 'img/paddle.png');
         this.load.image('brick', 'img/brick.png');
@@ -23,12 +23,20 @@ var Breakout = new Phaser.Class({
         this.load.image('floor_1', 'img/floor_1.png');
         this.load.image('floor_2', 'img/floor_2.png');
         this.load.image('ball', 'img/ball.png');
+
+        this.load.audio('brick_hit', [
+            'audio/explode.ogg',
+            'audio/explode.mp3'
+        ]);
+    
     },
 
     create: function ()
     {
         this.score = 0;
         this.remainingBalls = 3;
+
+        this.soundBrickHit = this.sound.add('brick_hit');
 
         this.add.image(400, 300, 'background');
 
@@ -61,6 +69,8 @@ var Breakout = new Phaser.Class({
 
         this.input.on('pointerup', function (pointer) {
 
+            this.title.visible = false;
+
             if (this.ball.getData('onPaddle'))
             {
                 this.ball.setVelocity(-75, 300);
@@ -74,17 +84,20 @@ var Breakout = new Phaser.Class({
 
         this.resetCity();
 
+        this.title = this.add.image(400, 300, 'title');
     },
 
     hitBrick: function (ball, brick)
     {
         brick.disableBody(true, true);
 
+        this.soundBrickHit.play();
+
         // Make the scaffolding black
         brick.scaffold.fillColor = 0x000000;
         brick.scaffold.fillAlpha = 0.5;
 
-        this.cameras.main.shake(50);
+        this.cameras.main.shake(50, 0.02);
 
         this.updateScore(1);
 
@@ -223,6 +236,7 @@ var Breakout = new Phaser.Class({
                 blueprints.push([width, height]);
                 totalWidth += width;
             }
+            break;
         }
         return blueprints;
     },
