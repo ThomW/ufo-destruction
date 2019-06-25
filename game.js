@@ -236,7 +236,6 @@ var Breakout = new Phaser.Class({
                 blueprints.push([width, height]);
                 totalWidth += width;
             }
-            break;
         }
         return blueprints;
     },
