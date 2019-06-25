@@ -7,7 +7,7 @@ A dumb breakout game I made in four hours for a gamejam
 
 # Making the Sausage
 
-I started with the source code of Phaser.io 3's [title](https://phaser.io/examples/v3/view/games/breakout/breakout), and flipped the game upside down just to see how it might work. 
+I started with the source code of [Phaser.io 3's Breakout Sample Game](https://phaser.io/examples/v3/view/games/breakout/breakout), and flipped the game upside down just to see how it might work. 
 
 I then fired up [Inkscape](https://inkscape.org/) and drew the ship, and a set of windows to replace the bricks in the game.  
 
