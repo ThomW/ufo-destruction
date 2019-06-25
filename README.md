@@ -1,4 +1,4 @@
-# ufo-destruction
+# UFO Destruction
 A dumb breakout game I made in four hours for a gamejam
 
 ![screenshot](https://github.com/ThomW/ufo-destruction/blob/master/screenshots/title.png?raw=true)
