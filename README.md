@@ -27,11 +27,11 @@ I then added the logic to build the buildings. I spent the most time getting the
 
 Once I got the buildings rendering, I then spent a bunch of time figuring out how to randomize the cities, and that turned out to be pretty simple - I have a blueprints array that has two dimensions - width and height in brick units and just randomly create buildings of different widths and heights. Nothing special.  
 
-I then added some variation to the distance between the buildings as in Rampage (which was obviously on my mind from the second I drew my first windows) to get away from the game looking like a giant wall.  
+I then added some variation to the distance between the buildings as in (Rampage)[https://www.youtube.com/watch?v=Au7UYaqpJw8] (which was obviously on my mind from the second I drew my first windows) to get away from the game looking like a giant wall.  
 
 Once I had the spacing half decent, I created the building toppers, and the doors at street level.  I'd love to add more variation, but four hours ... lol 
 
-At this point, the game was largely playable. I moved things around so that level resets would work, added the dumb screen shake that needs to be toned down, added score and balls remaining displays, then grabbed my iPad and drew the background. 
+At this point, the game was largely playable. I moved things around so that level resets would work, added the dumb screen shake that needs to be toned down, added score and balls remaining displays, then grabbed my iPad and drew the background using [Procreate](https://procreate.art/ipad) in like 10 minutes.  It took me longer to get images on and off my iPad than it took to draw that background in case you're wondering -- haha.
 
 I'd done all I could from the couch, and went downstairs to wrap things up. In the final hour, I created the sole sound effect using [sfxr](https://github.com/grimfang4/sfxr), added some found code that helped scale the game up to fill the entire screen, created the title screen, final testing, then uploaded the project to the game jam [itch.io](https://thomw.itch.io/ufo-destruction). 
 
