@@ -5,6 +5,18 @@ A dumb breakout game I made in four hours for a gamejam
 
 [Play the game](https://lmnopc.com/ufo/)
 
+# Why I Made This
+
+I signed up for a [72 hour game jam that was created five days before the jam](https://itch.io/jam/scorejam5), thinking "I'm never going to make something for this thing - there isn't enough time, but if the weather's lousy, maybe I can cook up something." 
+
+The weather was really nice, and I didn't think about it all weekend.  Until the day of the deadline - Monday.  
+
+I was having lunch with my son, and talking about the fact that I wasn't making something for the game jam. Told him that the theme was "destruction" and that if the weather had been worse, I would have made a quick [breakout-style game](https://www.youtube.com/watch?v=1oATuwG_dsA) just to make something. I showed him a quick video of breakout being played (the one I linked to above), and he said to me: 
+
+"You should turn it upside down and play as a UFO destroying a city."  
+
+It was too good of an idea not to do it.  As soon as 5:00 hit, I was off to the races.
+
 # Making the Sausage
 
 I started with the source code of [Phaser.io 3's Breakout Sample Game](https://phaser.io/examples/v3/view/games/breakout/breakout), and flipped the game upside down just to see how it might work. 
