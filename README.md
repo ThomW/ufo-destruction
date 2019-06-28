@@ -41,7 +41,7 @@ I'd still spend all weekend in the pool, but if it had been raining, it would ha
 
 I find it hilarious that in my youth I had a room full of synthesizers and drum machines, and I can't be bothered to make some music for my dumb games. When I finshed G.T. I said to myself, "I'm never leaving sound for last again!" and I did it again. Sound was the last thing I did, and it's obvious. NEXT GAME, amirite? lol
 
-I'd love to add an explosion graphic, and make the buildings react a bit more realistically. I planned to add some logic to have the buildings collapse when its lower level was destroyed (as in Rampage), but I just didn't have the time to work all that out.  
+I'd love to add an explosion graphic, and make the buildings react a bit more realistically. I planned to add some logic to have the buildings collapse when its lower level was destroyed (as in Rampage), but I just didn't have the time to work all that out.  I also want to make everything look more cohesive like it actually belongs together. The whole time I was making it, I was thinking it'd be neat to make it all look like it was made out of cardboard cutouts or something.  
 
 # Thanks for reading this
 
