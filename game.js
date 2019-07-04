@@ -11,6 +11,7 @@ var Breakout = new Phaser.Class({
         this.bricks;
         this.paddle;
         this.ball;
+        this.particles;
     },
 
     preload: function ()
@@ -23,6 +24,8 @@ var Breakout = new Phaser.Class({
         this.load.image('floor_1', 'img/floor_1.png');
         this.load.image('floor_2', 'img/floor_2.png');
         this.load.image('ball', 'img/ball.png');
+
+        this.load.atlas('explosion', 'img/explosion.png', 'img/explosion.json');
 
         this.load.audio('brick_hit', [
             'audio/explode.ogg',
@@ -44,6 +47,36 @@ var Breakout = new Phaser.Class({
         this.physics.world.setBoundsCollision(true, true, false, true);
 
         this.bricks = this.physics.add.staticGroup();
+
+        // Create particle emitter for when bricks get hit
+        this.particles = this.add.particles('explosion');
+
+        //  Setting { min: x, max: y } will pick a random value between min and max
+        //  Setting { start: x, end: y } will ease between start and end
+    
+        this.particles.createEmitter({
+            frame: [ 'smoke-puff', 'cloud', 'smoke-puff' ],
+            angle: { min: 240, max: 300 },
+            speed: { min: 30, max: 100 },
+            quantity: 4,
+            lifespan: 1000,
+            alpha: { start: 1, end: 0 },
+            scale: { start: 1.5, end: 0.5 },
+            on: false
+        });
+    
+        this.particles.createEmitter({
+            frame: 'stone',
+            angle: { min: 240, max: 300 },
+            speed: { min: 100, max: 200 },
+            quantity: { min: 2, max: 3 },
+            lifespan: 500,
+            alpha: { start: 1, end: 0 },
+            scale: { min: 0.05, max: 0.4 },
+            rotate: { start: 0, end: 360, ease: 'Back.easeOut' },
+            gravityY: 800,
+            on: false
+        });        
 
         this.ball = this.physics.add.image(400, 100, 'ball').setCollideWorldBounds(true).setBounce(1);
         this.ball.setData('onPaddle', true);
@@ -92,6 +125,8 @@ var Breakout = new Phaser.Class({
         brick.disableBody(true, true);
 
         this.soundBrickHit.play();
+
+        this.particles.emitParticleAt(brick.x, brick.y);
 
         // Make the scaffolding black
         brick.scaffold.fillColor = 0x000000;
@@ -173,31 +208,56 @@ var Breakout = new Phaser.Class({
             brick.scaffold = null;
         });
 
-        // Create a new set of blueprints for our city
-        var blueprints = this.generateBlueprints();
-
         // Clear out the current bricks and scaffolding
         this.bricks.clear(true, true);
 
+        // Create a new set of blueprints for our city
+        var blueprints = this.generateBlueprints();
+
+        // I want to center the city on the screen to create the 
+        // chance to have gutters on the edges of the screen, so 
+        // I'm going to precalculate the x values for all the buildings
+        var buildingXs = [];
         var x = 0;
+        for (var i = 0; i < blueprints.length; i++) {            
+
+            blueprints[i].x = x;
+
+            // Increment x by the pixel width of a building
+            x += blueprints[i].width * 50;
+
+            // Add gaps between buildings (if we're between buildings)
+            if (i < blueprints.length - 1) {
+                if (this.rnd(0, 3) > 0) {
+                    x += this.rnd(0, 50);
+                }
+            }
+        }
+
+        // Calculate the x-offset using the calculated x above plus the width of the last building to get the buildings' full width
+        var xOffset = (this.cameras.main.width - x) * 0.5;
+
+        // Draw the city
         for (var i = 0; i < blueprints.length; i++)
         {
             // Determine the color of this building
             var colors = [0xe0c799, 0x8f6f6e, 0x3e878d, 0x772f5f, 0x5eb471, 0xa8947c];
             var buildingColor = colors[i % colors.length];
 
-            for (var b = 0; b < blueprints[i][0]; b++) {
+            var x = blueprints[i].x;
 
-                for (var y = 0; y < blueprints[i][1]; y++) {
-                    var buildingX = x + 25; // This is weird because the sprites' origin is at their center
-                    var buildingY = 550 - y * 32;
+            for (var b = 0; b < blueprints[i].width; b++) {
+
+                for (var y = 0; y < blueprints[i].height; y++) {
+                    var buildingX = xOffset + x + 25; // This is weird because the sprites' origin is at their center
+                    var buildingY = 525 - y * 32;
 
                     // Create the background color first for z-axis
                     var scaffold = this.add.rectangle(buildingX, buildingY, 50, 32, buildingColor);
 
                     // Buildings have tops and bottoms
                     var graphicName = 'brick';
-                    if (y == blueprints[i][1] - 1) {
+                    if (y == blueprints[i].height - 1) {
                         graphicName = 'brick_top';
                     } else if (y == 0) {
                         graphicName = 'floor_' + this.rnd(1, 2);
@@ -211,13 +271,14 @@ var Breakout = new Phaser.Class({
             }
 
             // Space between buildings
-            if (this.rnd(0, 3) > 0) {
-                x += this.rnd(0, 50);
-            }
+            // if (this.rnd(0, 3) > 0) {
+            //     x += this.rnd(0, 50);
+            // }
             
         }
 
-        // Bring the ball to the top of the z-order
+        // Bring the ball and particles to the top of the z-order
+        this.particles.setDepth(1);
         this.ball.setDepth(1);
     },
 
@@ -226,14 +287,16 @@ var Breakout = new Phaser.Class({
     {
         var MAX_WIDTH = 12;
         var blueprints = [];
-        var totalWidth = 0; 
+        var totalWidth = 0;
 
         while (totalWidth < MAX_WIDTH) {
             var width = this.rnd(1, 3);
             var height = this.rnd(5, 10);
 
             if (totalWidth + width <= MAX_WIDTH) {
-                blueprints.push([width, height]);
+                blueprints.push({
+                    'width': width, 
+                    'height': height});
                 totalWidth += width;
             }
         }
